@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CipherQuest is an educational cryptography puzzle game exploring classical ciphers and Indian knowledge systems." />
+  <title>CipherQuest: Escape the Ancient Vault</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="team.css" />
+</head>
+<body>
+  <div class="ambient" aria-hidden="true"></div>
+  <main class="game-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="CipherQuest home">
+        <span class="brand-mark">CQ</span>
+        <span><strong>CipherQuest</strong><small>Ancient Vault</small></span>
+      </a>
+      <div class="hud" id="hud" hidden>
+        <span><small>Score</small><strong id="score">0</strong></span>
+        <span><small>Lives</small><strong id="lives" aria-label="3 lives">♥ ♥ ♥</strong></span>
+        <span><small>Time</small><strong id="timer">00:00</strong></span>
+      </div>
+      <button class="icon-button" id="soundToggle" aria-label="Toggle sound" title="Toggle sound">♪</button>
+    </header>
+
+    <section class="screen active" id="startScreen">
+      <div class="start-grid">
+        <div class="intro-copy">
+          <p class="eyebrow">Educational cryptography game</p>
+          <h1>Escape the<br><em>Ancient Vault</em></h1>
+          <p class="lead">Four chambers guard a forgotten archive. Decode every message, collect each seal, and unlock the final door.</p>
+          <label for="playerName">Explorer name</label>
+          <div class="name-row">
+            <input id="playerName" maxlength="24" placeholder="Enter your name" autocomplete="off" />
+            <button class="primary" id="startButton">Enter the vault <span>→</span></button>
+          </div>
+          <button class="text-button team-link" id="teamButton">Meet the three-member project team</button>
+          <p class="validation" id="nameError" role="alert"></p>
+        </div>
+        <div class="vault-visual" aria-label="Four locked cipher seals">
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+          <div class="vault-core"><span>?</span><small>FINAL<br>SEAL</small></div>
+          <span class="rune r1">A→D</span><span class="rune r2">क=1</span>
+          <span class="rune r3">☾=1</span><span class="rune r4">•••</span>
+        </div>
+      </div>
+      <div class="rules-strip">
+        <span><b>4</b> cipher chambers</span>
+        <span><b>3</b> lives</span>
+        <span><b>100</b> points per seal</span>
+        <span><b>1</b> final vault</span>
+      </div>
+    </section>
+
+    <section class="screen" id="gameScreen">
+      <div class="progress-wrap">
+        <div class="level-label"><span id="levelNumber">Chamber 01</span><span id="levelProgress">1 of 4</span></div>
+        <div class="progress-track"><div id="progressBar"></div></div>
+      </div>
+
+      <article class="challenge-card">
+        <div class="challenge-heading">
+          <div class="seal" id="sealIcon">I</div>
+          <div><p class="eyebrow" id="conceptLabel">Substitution cipher</p><h2 id="levelTitle">Caesar Gate</h2></div>
+        </div>
+        <p class="story" id="storyText"></p>
+        <div class="cipher-panel" id="cipherPanel"></div>
+        <label for="answerInput" id="answerLabel">Your answer</label>
+        <div class="answer-row">
+          <input id="answerInput" autocomplete="off" spellcheck="false" />
+          <button class="primary" id="submitAnswer">Break the seal</button>
+        </div>
+        <div class="actions">
+          <button class="text-button" id="hintButton">◎ Reveal hint <span>−40 points</span></button>
+          <button class="text-button" id="lessonButton">ⓘ What is this concept?</button>
+        </div>
+        <div class="message" id="feedback" role="status" aria-live="polite"></div>
+        <div class="hint-box" id="hintBox" hidden></div>
+        <div class="lesson-box" id="lessonBox" hidden></div>
+      </article>
+
+      <aside class="seal-tray" aria-label="Collected seals">
+        <span>Collected seals</span>
+        <div id="collectedSeals"><i>?</i><i>?</i><i>?</i><i>?</i></div>
+      </aside>
+    </section>
+
+    <section class="screen" id="vaultScreen">
+      <div class="final-card">
+        <p class="eyebrow">Final chamber</p>
+        <h2>The seals are yours.</h2>
+        <p>Arrange the four collected seals in chamber order and enter the final vault code.</p>
+        <div class="final-seals" id="finalSeals"></div>
+        <label for="vaultInput">Four-part vault code</label>
+        <div class="answer-row">
+          <input id="vaultInput" placeholder="Enter the code" autocomplete="off" />
+          <button class="primary" id="openVault">Open the vault</button>
+        </div>
+        <div class="message" id="vaultFeedback" role="status" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="screen" id="resultScreen">
+      <div class="result-card">
+        <div class="result-seal">✓</div>
+        <p class="eyebrow">Archive recovered</p>
+        <h2>Master Cryptographer</h2>
+        <p id="resultMessage"></p>
+        <div class="result-stats">
+          <span><small>Final score</small><strong id="finalScore"></strong></span>
+          <span><small>Completion time</small><strong id="finalTime"></strong></span>
+          <span><small>Hints used</small><strong id="finalHints"></strong></span>
+        </div>
+        <button class="primary" id="restartButton">Play again</button>
+        <button class="text-button" id="reviewButton">Review the cryptography</button>
+      </div>
+    </section>
+
+    <section class="screen" id="reviewScreen">
+      <div class="review-head">
+        <div><p class="eyebrow">Concept review</p><h2>What each chamber teaches</h2></div>
+        <button class="primary small" id="reviewRestart">Play again</button>
+      </div>
+      <div class="concept-grid">
+        <article><b>01</b><h3>Caesar Cipher</h3><p>A substitution cipher shifts every letter by a fixed number. It demonstrates encryption, but is easy to break by trying all shifts.</p></article>
+        <article><b>02</b><h3>Katapayadi</h3><p>An Indian system that associates consonants with digits, historically helping encode and remember numbers. It is encoding, not secure encryption.</p></article>
+        <article><b>03</b><h3>Bhuta Sankhya</h3><p>A word-number system where familiar objects represent quantities, such as one moon or two eyes. It supports memorable numerical expression.</p></article>
+        <article><b>04</b><h3>Steganography</h3><p>The practice of hiding that a message exists. An acrostic can hide a word in initial letters, while modern methods can hide data in digital media.</p></article>
+      </div>
+      <div class="accuracy-note"><strong>Security note</strong><p>These historical and classical techniques are excellent for learning, but they should not protect real passwords or sensitive data. Modern systems use reviewed algorithms such as AES with properly managed keys.</p></div>
+    </section>
+
+    <section class="screen" id="teamScreen">
+      <div class="review-head">
+        <div><p class="eyebrow">Three-member project</p><h2>Team responsibilities</h2><p class="section-lead">Each member owns a distinct project area and can explain how their work connects to the complete game.</p></div>
+        <button class="primary small" id="teamBack">Back to game</button>
+      </div>
+      <div class="team-grid">
+        <article class="member-card"><div class="member-no">01</div><p class="role">Project lead, cryptography research & backend developer</p><h3>Shaikh Armaan</h3><p>Planned the game flow, selected the four concepts, checked that historical encoding is not incorrectly presented as modern encryption, and implemented the optional Node.js score API used when the project runs through the local server.</p><h4>Own this work</h4><ul><li>Objectives and problem statement</li><li>Caesar, Katapayadi and Bhuta Sankhya research</li><li>Security comparison and report content</li><li>GET and POST score API endpoints</li></ul><code>README.md + research notes + backend/server.js</code></article>
+        <article class="member-card"><div class="member-no">02</div><p class="role">Interface & experience developer</p><h3>Arshad Ahmed</h3><p>Created the page structure, game screens, input controls and responsive layout used on computers and mobile devices.</p><h4>Own this work</h4><ul><li>Start, challenge, result and review screens</li><li>Accessible labels and keyboard inputs</li><li>Responsive page structure</li></ul><code>index.html</code></article>
+        <article class="member-card"><div class="member-no">03</div><p class="role">Game logic, visual design & testing</p><h3>Riya Arabatti</h3><p>Implemented level data, answer checking, scoring, hints and level progression, defined the ancient-vault visual system, tested every answer path and prepared screenshots, test cases, presentation material and viva demonstrations.</p><h4>Own this work</h4><ul><li>Game state and level progression</li><li>Score, lives, timer and validation</li><li>Colours, typography and animations</li><li>Correct, incorrect, hint and game-over testing</li></ul><code>game.js + styles.css + testing documents</code></article>
+      </div>
+      <div class="architecture-card">
+        <div><p class="eyebrow">Technical architecture</p><h3>Offline core, optional backend</h3></div>
+        <p>The published game is intentionally static and offline-ready. The source package also includes an optional Node.js server that serves the game and accepts completed scores through a small REST API.</p>
+        <div class="file-flow"><span><b>index.html</b><small>Structure</small></span><i>→</i><span><b>styles.css</b><small>Presentation</small></span><i>→</i><span><b>game.js</b><small>Game logic</small></span><i>→</i><span><b>Browser</b><small>Execution</small></span></div>
+        <p class="backend-note"><strong>Backend scope:</strong> The included server stores scores temporarily in memory. A future version could connect it to MySQL or MongoDB for permanent accounts, leaderboards and saved progress.</p>
+      </div>
+    </section>
+  </main>
+  <footer>A three-member academic project • No data is collected • Works offline</footer>
+  <script src="game.js"></script>
+</body>
+</html>

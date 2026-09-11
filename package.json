@@ -1,0 +1,7 @@
+{
+  "name": "cipherquest-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Optional score API and static server for CipherQuest",
+  "scripts": { "start": "node server.js" }
+}
